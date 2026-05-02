@@ -100,10 +100,9 @@ fun GameScreen(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.height(4.dp))
+                    @Suppress("DEPRECATION")
                     LinearProgressIndicator(
-                        progress = {
-                            uiState.levelProgress.toFloat() / GameViewModel.CORRECT_TO_ADVANCE.toFloat()
-                        },
+                        progress = uiState.levelProgress.toFloat() / GameViewModel.CORRECT_TO_ADVANCE.toFloat(),
                         modifier = Modifier.fillMaxWidth(),
                         color = MaterialTheme.colorScheme.primary,
                         trackColor = MaterialTheme.colorScheme.surfaceVariant
@@ -176,26 +175,24 @@ fun GameScreen(
                     )
                 }
 
-                AnimatedVisibility(
-                    visible = uiState.feedback != FeedbackState.None,
-                    enter = fadeIn(),
-                    exit = fadeOut()
-                ) {
-                    when (val fb = uiState.feedback) {
-                        is FeedbackState.Correct -> Text(
+                when (val fb = uiState.feedback) {
+                    is FeedbackState.Correct -> AnimatedVisibility(visible = true, enter = fadeIn(), exit = fadeOut()) {
+                        Text(
                             text = "정답!",
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold,
                             color = CorrectGreen
                         )
-                        is FeedbackState.Wrong -> Text(
+                    }
+                    is FeedbackState.Wrong -> AnimatedVisibility(visible = true, enter = fadeIn(), exit = fadeOut()) {
+                        Text(
                             text = "틀렸습니다. 정답은 ${fb.correctAnswer}",
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold,
                             color = WrongRed
                         )
-                        else -> {}
                     }
+                    is FeedbackState.None -> {}
                 }
             }
         }

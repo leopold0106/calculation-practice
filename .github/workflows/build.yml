@@ -30,6 +30,10 @@ jobs:
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace --no-daemon 2>&1 | tee /tmp/build.log; exit ${PIPESTATUS[0]}
 
+      - name: Show last 100 lines of build log on failure
+        if: failure()
+        run: tail -100 /tmp/build.log || echo "no build log"
+
       - name: Upload build log (on failure)
         if: failure()
         uses: actions/upload-artifact@v4
