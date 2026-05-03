@@ -87,11 +87,21 @@ fun GameScreen(
                     )
                 }
 
-                Text(
-                    text = "연속 정답: ${uiState.consecutiveCorrect}",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.secondary
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Text(
+                        text = "+ / − : ${uiState.addSubProgress} / ${GameViewModel.CORRECT_PER_GROUP}",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                    Text(
+                        text = "× / ÷ : ${uiState.multDivProgress} / ${GameViewModel.CORRECT_PER_GROUP}",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
 
                 Column(modifier = Modifier.fillMaxWidth()) {
                     Text(
